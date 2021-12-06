@@ -45,8 +45,8 @@ function Room(props) {
     content = (
       <div>
         <div className="row">
-          <div className="col-12 col-md-8 col-lg-7">
-            <div className="row row-cols-3 row-cols-lg-4 row-cols-xl-5 g-2">
+          <div className="col-12 col-md-6 col-lg-7">
+            <div className="row row-cols-3 row-cols-md-2 row-cols-lg-3 row-cols-xl-4 g-2">
               {rooms.map((room) => {
                 // eslint-disable-next-line array-callback-return
                 if (props.id !== room.homeId) return;
@@ -72,7 +72,7 @@ function Room(props) {
               })}
             </div>
           </div>
-          <div className="col-12 col-md-4 col-lg-5">{getDetail()}</div>
+          <div className="col-12 col-md-6 col-lg-5">{getDetail()}</div>
         </div>
         <div className="marTop">
           <Chart

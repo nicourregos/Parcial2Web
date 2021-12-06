@@ -87,7 +87,7 @@ function Space(props) {
           <p><FormattedMessage id="Address" />: {show.address}</p>
           <p><FormattedMessage id="Phone" />: {show.phone}</p>
           <p><FormattedMessage id="Type" />: {show.type}</p>
-          <p><FormattedMessage id="IsActive" />:{"" + show.isActive}</p>
+          <p>{show.isActive? <FormattedMessage id="IsActive" />: <FormattedMessage id="IsNotActive" />}</p>
           <h3><FormattedMessage id="TitleRooms" /></h3>
           <Room id={show.id} room={null} key={show.id}/>
           
