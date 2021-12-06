@@ -1,61 +1,84 @@
 import { useEffect, useState } from "react";
-import "./space.css";
+import "./styles.css";
+import Chart from "./Chart";
+import { FormattedMessage } from "react-intl";
 
 function Room(props) {
-  const [spaces, setSpaces] = useState([]);
-  const [show, setShow] = useState(null);
-  const [detail, setDetail] = useState();
+  const [rooms, setRooms] = useState([]);
+  const [show, setShow] = useState(props.room);
 
   useEffect(() => {
-    fetch(
-      "https://gist.githubusercontent.com/josejbocanegra/92c90d5f2171739bd4a76d639f1271ea/raw/9effd124c825f7c2a7087d4a50fa4a91c5d34558/rooms.json",
-      {
-        method: "GET",
+    if (!navigator.onLine) {
+      if (localStorage.getItem("rooms") === null) {
+      } else {
+        let rm = JSON.parse(localStorage.getItem("rooms"));
+        setRooms(rm);
       }
-    )
-      .then((res) => {
-        return res.json();
-      })
-      .then((res) => {
-        setSpaces(res);
-      });
+    } else {
+      fetch(
+        "https://gist.githubusercontent.com/josejbocanegra/92c90d5f2171739bd4a76d639f1271ea/raw/9effd124c825f7c2a7087d4a50fa4a91c5d34558/rooms.json",
+        {
+          method: "GET",
+        }
+      )
+        .then((res) => {
+          return res.json();
+        })
+        .then((res) => {
+          localStorage.setItem("rooms", JSON.stringify(res));
+          setRooms(res);
+        });
+    }
   }, []);
 
-  useEffect(() => {
-    setDetail(getDetail());
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [show]);
-
   var content;
-  if (!spaces || spaces.length === 0) {
+  if (!rooms || rooms.length === 0) {
     content = (
       <div className="container" id="content">
-        <p> No spaces available</p>
+        <p>
+          {" "}
+          <FormattedMessage id="EmptyRooms" />
+        </p>
       </div>
     );
   } else {
     content = (
-      <div className="container" id="content">
-        <div className="row row-cols-1 row-cols-md-3 row-cols-lg-4 g-4">
-          {spaces.map((space) => {
-            return (
-              <div className="col" key={space.id}>
-                <div onClick={() => setShow(space)} className="card h-100">
-                  <img
-                    className="card-img-top imgCardZonas"
-                    src={
-                      "https://images.unsplash.com/photo-1480074568708-e7b720bb3f09?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1774&q=80"
-                    }
-                    alt={space.name}
-                  />
-                  <div className="card-body">
-                    <h5 className="card-title">{space.name}</h5>
-                    <div className="card-text">{space.address}</div>
+      <div>
+        <div className="row">
+          <div className="col-12 col-md-8 col-lg-7">
+            <div className="row row-cols-3 row-cols-lg-4 row-cols-xl-5 g-2">
+              {rooms.map((room) => {
+                // eslint-disable-next-line array-callback-return
+                if (props.id !== room.homeId) return;
+                return (
+                  <div className="col" key={room.homeId + room.name}>
+                    <div onClick={() => setShow(room)} className="card h-100">
+                      <div className="card-body">
+                        <h5 className="card-title">{room.name}</h5>
+                        <div className="card-text">{room.address}</div>
+                      </div>
+                      <img
+                        className="card-img-top imgCardRoom"
+                        src={
+                          require(room.type.includes("kitcken")
+                            ? "../assets/kitchen.jpeg"
+                            : "../assets/room.jpeg").default
+                        }
+                        alt={room.name}
+                      />
+                    </div>
                   </div>
-                </div>
-              </div>
-            );
-          })}
+                );
+              })}
+            </div>
+          </div>
+          <div className="col-12 col-md-4 col-lg-5">{getDetail()}</div>
+        </div>
+        <div className="marTop">
+          <Chart
+            data={rooms.filter((room) => room.homeId === props.id)}
+            key={props.id}
+          />
         </div>
       </div>
     );
@@ -64,14 +87,32 @@ function Room(props) {
   function getDetail() {
     if (show) {
       return (
-        <div className="container" id="content">
-          <h4>{show.name}</h4>
-          <p>Address: {show.address}</p>
-          <p>Phone: {show.phone}</p>
-          <p>Type: {show.type}</p>
-          <p>isActive: {show.isActive}</p>
-
-        </div>
+        <table className="table">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">ID</th>
+              <th scope="col">
+                <FormattedMessage id="Device" />
+              </th>
+              <th scope="col">
+                <FormattedMessage id="Value" />
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            {show.devices.map((device, i) => {
+              return (
+                <tr key={device.id + "" + device.desired.value}>
+                  <th scope="row">{i+1}</th>
+                  <td>{device.id}</td>
+                  <td>{device.name}</td>
+                  <td>{"" + device.desired.value}</td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
       );
     }
   }
@@ -79,7 +120,6 @@ function Room(props) {
   return (
     <div>
       <div>{content}</div>
-      <div>{detail}</div>
     </div>
   );
 }

@@ -1,0 +1,14 @@
+{
+    "TitleSpaces": "Mis espacios",
+    "TitleRooms": "Mis habitaciones",
+    "EmptySpaces": "No hay espacios disponibles",
+    "EmptyRooms": "No hay habitaciones disponibles",
+    "Address": "Dirección",
+    "Phone": "Teléfono",
+    "Type": "Tipo",
+    "IsActive": "¿Está activo?",
+    "Device": "Dispositivo",
+    "Value": "Valor",
+    "TitleStats": "Estadísticas",
+    "StatsCaption": "Consumo energético (KwH) - Hoy"
+}

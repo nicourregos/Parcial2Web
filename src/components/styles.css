@@ -1,0 +1,38 @@
+.imgCards {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  height: 25vh;
+  object-fit: cover;
+}
+
+.imgCardRoom {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  height: 15vh;
+  object-fit: cover;
+}
+
+.spaceShdw {
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 3px 10px 0 rgba(0, 0, 0, 0.19);
+}
+
+.det {
+  margin-top: 3vh;
+  border-style: solid;
+  border-width: 1px;
+  border-color: lightgrey;
+  border-radius: 5px;
+  padding: 1.5vh;
+}
+
+.centered{
+    align-content: center;
+    text-align: center;
+    margin-top: 1vh;
+}
+
+.marTop{
+    margin-top: 2vh;
+}

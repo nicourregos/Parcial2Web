@@ -1,0 +1,14 @@
+{
+    "TitleSpaces": "My spaces",
+    "TitleRooms": "My rooms",
+    "EmptySpaces": "No spaces available",
+    "EmptyRooms": "No rooms available",
+    "Address": "Address",
+    "Phone": "Phone",
+    "Type": "Type",
+    "IsActive": "Is active?",
+    "Device": "Device",
+    "Value": "Value",
+    "TitleStats": "Stats",
+    "StatsCaption": "Power usage (KwH) - Today"
+}
